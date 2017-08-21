@@ -1,0 +1,313 @@
+// Core
+
+*:focus {
+  outline: none !important;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: $footer-height;
+}
+
+a {
+  cursor: pointer;
+}
+
+
+// Navbar
+
+.navbar {
+  box-shadow: 0 5px 7px rgba(0,0,0,0.19);
+
+  &-nav a {
+    transition: .2s;
+  }
+}
+
+
+// Alerts
+
+.alert-dismissable,
+.alert-dismissible {
+  .close {
+    top: 0;
+  }
+} 
+
+
+// Panels
+
+.panel {
+  border: none;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+
+  .panel-heading {
+    border: none;
+  }
+
+  *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+
+// List group
+
+.list-group {
+  &-item {
+    padding: $padding-base-vertical $padding-base-horizontal;
+    @include transition(.15s);    
+
+    &-heading {
+      font-size: 16px;
+      margin-bottom: 3px;
+    }
+
+    &-text {
+      font-size: 12px;
+    }
+  }
+}
+
+
+// Posts
+
+.post {
+  &-header {
+    margin: 0 0 10px;
+  }
+
+  &-title {
+    margin: 0 0 10px;
+    font-size: 22px;
+
+    a:hover {
+      text-decoration: none;
+    }
+  }
+
+  &-action-buttons {
+    float: right;
+    opacity: 0;
+    @include transition(opacity .2s);
+
+    a {
+      @include square(30px);
+      background: #eceff1;
+      border-radius: 50%;
+      color: #607d8b;
+      float: right;
+      text-align: center;
+      padding-top: 7px;
+      line-height: 1;
+      margin-left: $padding-base-horizontal;
+      @include transition(.15s);
+
+      &:hover {
+        background-color: $brand-danger;
+        color: white;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+
+  &-list {
+    font-size: 12px;
+    margin-bottom: 0;
+
+    li:not(:first-child):not(:empty):before {
+      content: '';
+      border-radius: 50%;
+      background: lighten($gray-light, 20%);
+      float: left;
+      margin: 6px 8px 0 -2px;
+      @include square(3px);
+    }
+
+    li:empty {
+      display: none;
+
+      + li:before {
+        display: none;
+        margin: 0;
+      }
+    }
+  }
+
+  &-comment {
+    i {
+      padding: 2px 5px 0 0;
+      float: left;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    .post-action-buttons {
+      opacity: 1;
+    }
+  }
+}
+
+
+// Comments
+
+.comment {
+  padding-top: $padding-base-vertical;
+  margin-top: $padding-base-vertical;
+
+  &:not(:first-child) {
+    .comment-author {
+      margin-top: 2px;
+    }
+  }
+
+  &-author {
+    margin: 0;
+    color: $gray-light;
+    font-size: 12px;
+  }
+
+  &-content {
+    margin: 1px 0 0;
+  }
+
+  &-footer {
+    margin: 0;
+    font-size: 12px;
+    color: #bbb;
+
+    > * {
+      display: inline-block;
+
+      + *:before {
+        content: '';
+        border-radius: 50%;
+        background: #bbb;
+        margin: 6px 8px 0;
+        float: left;
+        width: 3px;
+        height: 3px;
+      }
+    }
+  }
+
+  + .comment {
+    border-top: 1px solid $gray-lighter;
+  }
+
+  &-form {
+    margin-top: $padding-base-vertical * 2;
+
+    input,
+    textarea {
+      margin-bottom: $padding-base-vertical;
+    }
+  }
+}
+
+
+// Footer
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: $footer-weight;
+  height: $footer-height;
+  color: $footer-color;
+  background-color: $footer-bg-color;
+  line-height: $footer-height;
+  box-shadow: 0 -5px 7px rgba(0,0,0,0.19);
+
+  a {
+    color: $footer-color;
+  }
+}
+
+
+// Mixin for preloaders
+
+@mixin loader {
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    opacity: .0;
+    margin: -5px 5px;
+    border-radius: 50%;    
+    @include square(10px);
+  }
+
+  &:before {
+    left: 50%;
+    right: auto;
+    background: $brand-primary;
+    animation: loading 1.3s .65s infinite;
+  }
+
+  &:after {
+    left: auto;
+    right: 50%;
+    background: $brand-danger;
+    animation: loading 1.3s infinite;
+  }
+}
+
+@keyframes loading {
+  0% {
+    opacity: .1;
+    transform: scale(.1);
+    box-shadow: 0 0 2px rgba(black, .2);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(2);
+    box-shadow: 0 0 10px rgba(black, .2);
+  }
+
+  100% {
+    opacity: .1;
+    transform: scale(.1);
+    box-shadow: 0 0 2px rgba(black, .2);
+  }
+}
+
+
+// Preloader for page
+
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  opacity: 1;
+  visibility: visible;
+  background: $body-bg;
+  @include loader;
+  @include transition(.2s);
+
+  &.done {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+
+// Preloader for blocks
+
+.loading {
+  position: relative;
+  height: 25px;
+  @include loader;
+}
