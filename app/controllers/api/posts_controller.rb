@@ -1,14 +1,13 @@
 class Api::PostsController < ApiController
   def index
-    render json: Post.includes(:category).all
+    json_response Post.includes(:category).all
   end
 
   def search
-    render json: Post.includes(:category).search(params[:query])
+    json_response Post.includes(:category).search(params[:query])
   end
 
   def destroy
-    # for testing
-    render json: Post.find(params[:id])
+    json_action Post.find(params[:id]).destroy
   end
 end

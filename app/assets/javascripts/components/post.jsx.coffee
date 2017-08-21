@@ -1,14 +1,12 @@
 class @Post extends React.Component
   @propTypes =
-    name: React.PropTypes.string
-    content: React.PropTypes.string
-    category: React.PropTypes.string
-    created_at: React.PropTypes.string
-    comments_count: React.PropTypes.number
+    data: React.PropTypes.object
+    handleDelete: React.PropTypes.func
 
-  constructor: ->
+  constructor: (props) ->
     @state =
       comments: null
+      commentsCount: props.data.comments_count
       toggleComments: false
 
   # Post
@@ -28,25 +26,38 @@ class @Post extends React.Component
       $.ajax
         method: 'DELETE'
         url: "/api/posts/#{@props.data.id}"
-        success: (data) => @props.handleDeletePost(@props.data.id)
-        error: (xhr, status, error) => console.error "Cannot delete requested record: #{error}"
+        success: @props.handleDelete
+        error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
 
   # Comments
-
-  handleClickComment: =>
-    @setState toggleComments: !@state.toggleComments
-    do @getCommentsDataFromApi unless @state.comments
 
   getCommentsDataFromApi: =>
     $.ajax
       url: "/api/posts/#{@props.data.id}/comments"
-      success: (comments) => @setState(comments: comments)
+      success: (comments) =>
+        @setState comments: comments
+        @setState commentsCount: comments.length
       error: (xhr, status, error) => console.error "Cannot get data from API: #{error}"
+
+  handleClickComments: =>
+    @setState toggleComments: !@state.toggleComments
+    do @getCommentsDataFromApi unless @state.comments
+
+  handleCommentDelete: =>
+    do @getCommentsDataFromApi
+
+  handleCommentSubmit: =>
+    do @getCommentsDataFromApi
 
   render: ->
     self = @
     post = @props.data
-    comments = @state.comments && @state.comments.map (comment) -> `<Comment data={comment} key={'comment' + comment.id} />`
+
+    comments = @state.comments && @state.comments.map (comment) ->
+     `<Comment data={comment}
+               postId={post.id}
+               handleDelete={self.handleCommentDelete}
+               key={'comment' + comment.id} />`
 
     `<article className="panel panel-default post">
       <div className="panel-body">
@@ -71,15 +82,15 @@ class @Post extends React.Component
         </p>
 
         <footer className="post-footer">
-          <a onClick={this.handleClickComment} className="post-comment">
+          <a onClick={this.handleClickComments} className="post-comment">
             <i className="glyphicon glyphicon-comment"></i>
-            {post.comments_count}
+            {this.state.commentsCount}
           </a>
         </footer>
 
         <div className={this.state.toggleComments ? 'comments show' : 'comments hide'}>
           {comments}
-          <CommentForm />
+          <CommentForm handleCommentSubmit={this.handleCommentSubmit} postId={post.id} />
         </div>
       </div>
     </article>`

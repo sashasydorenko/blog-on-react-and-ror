@@ -1,9 +1,19 @@
 class Api::CommentsController < ApiController
   def index
-    render json: Comment.for_post(params[:post_id])
+    json_response Comment.for_post(params[:post_id])
+  end
+
+  def create
+    json_action Comment.create(comment_params)
   end
 
   def destroy
-    render json: Comment.find(params[:id]).destroy
+    json_action Comment.find(params[:id]).destroy
+  end
+
+  private
+
+  def comment_params
+    params.permit(:author, :content, :post_id)
   end
 end

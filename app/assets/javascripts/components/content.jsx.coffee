@@ -9,13 +9,10 @@ class @Content extends React.Component
     $.ajax
       url: '/api/posts'
       success: (posts) => @setState(posts: posts)
-      error: (xhr, status, error) => console.error "Cannot get data from API: #{error}"
+      error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
 
   handleSearch: (posts) =>
     @setState posts: posts
-
-  uptadeList: (id) =>
-    @setState posts: @state.posts.filter (post) => post.id isnt id
 
   render: ->
     self = @
@@ -25,7 +22,7 @@ class @Content extends React.Component
         @state.posts.map (post) ->
           `<Post data={post}
                  key={post.id}
-                 handleDeletePost={self.uptadeList} />`
+                 handleDelete={self.getDataFromApi} />`
       else
         `<div className="panel panel-default">
           <div className="panel-body text-center text-muted" style={{fontSize: '20px'}}>

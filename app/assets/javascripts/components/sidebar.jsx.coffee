@@ -1,4 +1,7 @@
 class @Sidebar extends React.Component
+  @propTypes =
+    handleSearch: React.PropTypes.func
+
   render: ->
     `<aside>
       <div className="panel panel-default">

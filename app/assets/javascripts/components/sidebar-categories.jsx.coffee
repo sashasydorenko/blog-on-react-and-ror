@@ -9,7 +9,7 @@ class @SidebarCategories extends React.Component
     $.ajax
       url: '/api/sidebar/categories'
       success: (data) => @setState(categories: data)
-      error: (xhr, status, error) => console.error "Cannot get data from API: #{error}"
+      error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
 
   handleClick: ->
     console.log('Category: ' + @props.name)
