@@ -100,6 +100,7 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
+    pg (0.21.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -199,6 +200,7 @@ DEPENDENCIES
   jquery-rails (~> 4.3, >= 4.3.1)
   listen (~> 3.0.5)
   mini_magick (~> 4.8)
+  pg
   pry-rails
   rails (~> 5.0.2)
   react-rails (~> 2.2, >= 2.2.1)
