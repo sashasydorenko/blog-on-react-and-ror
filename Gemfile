@@ -8,7 +8,13 @@ end
 gem 'rails', '~> 5.0.2'
 
 # DB
-gem 'sqlite3'
+group :production do
+  gem 'pg'
+end
+
+group :development, :test do
+  gem 'sqlite3'
+end
 
 # Images
 gem 'mini_magick', '~> 4.8'
