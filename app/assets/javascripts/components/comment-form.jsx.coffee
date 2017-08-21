@@ -10,15 +10,10 @@ class @CommentForm extends React.Component
       author: @refs.author.value
       content: @refs.content.value
 
-    $.ajax
-      method: 'POST'
-      data: comment
-      url: "/api/posts/#{@props.postId}/comments"
-      success: (comment) =>
-        @props.handleCommentSubmit comment
-        @refs.author.value = ''
-        @refs.content.value = ''
-      error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
+    $.post "/api/posts/#{@props.postId}/comments", comment, (comment) =>
+      @refs.author.value = ''
+      @refs.content.value = ''
+      @props.handleCommentSubmit comment
 
   render: ->
     `<form className="comment-form" onSubmit={this.handleSubmit}>

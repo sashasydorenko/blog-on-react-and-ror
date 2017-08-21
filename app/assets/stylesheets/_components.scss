@@ -81,6 +81,10 @@ textarea {
 // Posts
 
 .post {
+  .panel-body {
+    padding: $post-panel-body-padding;
+  }
+
   &-header {
     margin: 0 0 10px;
   }
@@ -156,6 +160,49 @@ textarea {
   &:hover {
     .post-action-buttons {
       opacity: 1;
+    }
+  }
+}
+
+
+// Button `New post`
+
+.btn-new-post {
+  background-color: $brand-danger;
+  color: white;
+  line-height: 1;
+  font-size: 28px;
+  text-align: center;
+  border-radius: 50px;
+  padding-top: 13px;
+  white-space: nowrap;
+  display: inline-block;
+  margin-bottom: $line-height-computed;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  @include square(50px);
+  @include transition(.1s linear);
+
+  &-text {
+    font-size: 16px;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0;
+    @include size(0, 20px);
+    @include transition(.1s);
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-color: $brand-danger;
+    color: white;
+    width: 100%;
+    @include transition(.15s linear);
+
+    .btn-new-post-text {
+      width: 110px;
+      opacity: 1;
+      @include transition(width .1s linear .2s, opacity .15s .3s);
     }
   }
 }
@@ -314,4 +361,83 @@ textarea {
   position: relative;
   height: 25px;
   @include loader;
+}
+
+
+// AlertifyJS
+
+.alertify {
+  .ajs-dimmer {
+    background-color: #000;
+    opacity: .5;
+  }
+
+  .ajs-dialog {
+    max-width: 600px;
+    min-height: 122px;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+  }
+
+  .ajs-header {
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 6px 6px 0 0;
+    font-size: 18px;
+  }
+
+  .ajs-body {
+    color: black;
+  }
+
+  &.ajs-resizable .ajs-content,
+  &.ajs-maximized:not(.ajs-resizable) .ajs-content {
+    top: 58px;
+    bottom: 68px;
+  }
+  
+  .ajs-footer {
+    background-color: #fff;
+    padding: 15px;
+    border-top: 1px solid #e5e5e5;
+    border-radius: 0 0 6px 6px;
+  }
+}
+
+.alertify-notifier {
+  &.ajs-top {
+    top: 0;
+  }
+
+  &.ajs-right {
+    right: 10px;
+
+    .ajs-message.ajs-visible {
+      right: 260px;
+    }
+  }
+
+  .ajs-message {
+    background: rgba(255, 255, 255, 0.95);
+    color: #000;
+    border-radius: 4px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+
+    &.ajs-success {
+      color: #fff;
+      background: $brand-success;
+    }
+
+    &.ajs-error {
+      color: #fff;
+      background: $brand-danger;
+    }
+
+    &.ajs-warning {
+      border-color: #999;
+      background: $brand-warning;
+    }
+  }
 }

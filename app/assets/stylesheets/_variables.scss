@@ -61,7 +61,7 @@ $navbar-default-toggle-border-color:       $navbar-default-link-color !default;
 //== Panels
 
 $panel-bg:                    #fff !default;
-$panel-body-padding:          15px !default;
+$panel-body-padding:          10px !default;
 $panel-heading-padding:       10px 15px !default;
 $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         3px !default;
@@ -74,6 +74,11 @@ $panel-default-heading-bg:    #eceff1 !default;
 //== List group
 
 $list-group-border-radius:      3px !default;
+
+
+//== Posts
+
+$post-panel-body-padding:       15px !default;
 
 
 //== Footer

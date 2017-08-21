@@ -6,10 +6,7 @@ class @Content extends React.Component
     do @getDataFromApi
 
   getDataFromApi: =>
-    $.ajax
-      url: '/api/posts'
-      success: (posts) => @setState(posts: posts)
-      error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
+    $.get '/api/posts', (posts) => @setState(posts: posts)
 
   handleSearch: (posts) =>
     @setState posts: posts
@@ -32,13 +29,17 @@ class @Content extends React.Component
 
     `<div className="container">
       <div className="row">
-        <div className="col-md-9">
+        <div className="col-md-9">          
+          <div className="text-center">
+            <a className="btn-new-post">+<span className="btn-new-post-text">Add new post</span></a>
+          </div>
+
           <div className="posts">
             {posts}
           </div>
         </div>
 
-        <div className="col-md-3">
+        <div className="col-md-3">          
           <Sidebar handleSearch={this.handleSearch} />
         </div>
       </div>

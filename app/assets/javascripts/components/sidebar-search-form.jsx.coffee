@@ -3,15 +3,11 @@ class @SidebarSearchForm extends React.Component
     handleSearch: React.PropTypes.func
 
   handleSearch: =>
-    $.ajax
-      url: '/api/posts/search',
-      data: query: @refs.query.value.trim()
-      success: @props.handleSearch
-      error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
+    $.get '/api/posts/search', query: @refs.query.value.trim(), @props.handleSearch
 
   render: ->
     `<input type="search"
-            className="form-control"
+            className="form-control input-sm"
             placeholder="Type search phrase here..."
             onChange={this.handleSearch}
             ref="query" />`

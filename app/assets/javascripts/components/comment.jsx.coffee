@@ -9,7 +9,6 @@ class @Comment extends React.Component
       method: 'DELETE'
       url: "/api/posts/#{@props.postId}/comments/#{@props.data.id}"
       success: @props.handleDelete
-      error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
 
   render: ->
     comment = @props.data

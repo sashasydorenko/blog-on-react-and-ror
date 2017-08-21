@@ -27,17 +27,13 @@ class @Post extends React.Component
         method: 'DELETE'
         url: "/api/posts/#{@props.data.id}"
         success: @props.handleDelete
-        error: (xhr) => xhr.responseJSON.errors.map (error) -> console.error error
 
   # Comments
 
   getCommentsDataFromApi: =>
-    $.ajax
-      url: "/api/posts/#{@props.data.id}/comments"
-      success: (comments) =>
-        @setState comments: comments
-        @setState commentsCount: comments.length
-      error: (xhr, status, error) => console.error "Cannot get data from API: #{error}"
+    $.get "/api/posts/#{@props.data.id}/comments", (comments) =>
+      @setState comments: comments
+      @setState commentsCount: comments.length
 
   handleClickComments: =>
     @setState toggleComments: !@state.toggleComments
