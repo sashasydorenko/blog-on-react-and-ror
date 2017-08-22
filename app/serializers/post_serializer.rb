@@ -1,7 +1,7 @@
 class PostSerializer < ActiveModel::Serializer
   include DateTimeHelper
 
-  attributes :id, :name, :content, :comments_count, :category, :file, :created_at
+  attributes :id, :name, :content, :comments_count, :category, :category_id, :file, :created_at
 
   def content
     object.content.truncate(400)

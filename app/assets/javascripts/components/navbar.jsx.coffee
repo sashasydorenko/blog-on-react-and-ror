@@ -1,4 +1,10 @@
 class @Navbar extends React.Component
+  handlePageAbout: ->
+    alertify.alert 'Page <b>About</b>'
+
+  handlePageContact: ->
+    alertify.alert 'Page <b>Contact</b>'
+
   render: ->
     `<nav className="navbar navbar-default navbar-static-top">
       <div className="container">
@@ -15,9 +21,8 @@ class @Navbar extends React.Component
 
         <div id="navbar-collapse" className="collapse navbar-collapse">
           <ul className="nav navbar-nav navbar-right">
-            <li><a>Home</a></li>
-            <li><a>About</a></li>
-            <li><a>Contact</a></li>
+            <li><a onClick={this.handlePageAbout}>About</a></li>
+            <li><a onClick={this.handlePageContact}>Contact</a></li>
           </ul>
         </div>
       </div>

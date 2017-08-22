@@ -1,6 +1,8 @@
 class @PostForm extends React.Component
-  @propTypes =
+  @contextTypes =
     categories: React.PropTypes.array
+
+  @propTypes =
     handleSubmit: React.PropTypes.func
 
   emptyForm: ->
@@ -21,28 +23,28 @@ class @PostForm extends React.Component
         .addClass 'disabled'
         .text 'Sending...'
 
-      $.ajax
+      $.ajax(
         method: 'POST'
         url: '/api/posts'
         cache: false
         contentType: false
         processData: false
         data: formData
-        success: =>
-          do @emptyForm
-          do @props.handleSubmit
-
-          alertify.success 'Post is successful created'
-          alertify.modalForm().close()
-
-          $(e.button.element)
-            .removeClass 'disabled'
-            .text 'Save'
+      ).done( =>
+        do @emptyForm
+        do @props.handleSubmit
+        alertify.success 'Post is successful created'
+        alertify.modalForm().close()
+      ).always( =>
+        $(e.button.element)
+          .removeClass 'disabled'
+          .text 'Save'
+      )
 
       false
 
   render: ->
-    categories = @props.categories && @props.categories.map (c) -> `<option value={c.id} key={c.id}>{c.name}</option>`
+    categories = @context.categories && @context.categories.map (c) -> `<option value={c.id} key={c.id}>{c.name}</option>`
 
     `<div>
       <div className="text-center">

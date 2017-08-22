@@ -1,6 +1,8 @@
 class @Sidebar extends React.Component
-  @propTypes =
+  @contextTypes =
     categories: React.PropTypes.array
+
+  @propTypes =
     handleSearch: React.PropTypes.func
     handleCategorySubmit: React.PropTypes.func
     handleCategoryDelete: React.PropTypes.func
@@ -19,25 +21,25 @@ class @Sidebar extends React.Component
         .addClass 'disabled'
         .text 'Sending...'
 
-      $.post '/api/categories', category, =>
+      $.post('/api/categories', category, =>
         do @emptyForm
         do @props.handleCategorySubmit
-
         alertify.success 'Category is successful created'
         alertify.modalForm().close()
-
+      ).always( =>
         $(e.button.element)
           .removeClass 'disabled'
           .text 'Save'
+      )
 
       false
 
   categoriesList: =>
-    return `<Loading />` unless @props.categories
+    return `<Loading />` unless @context.categories
 
-    if @props.categories.length > 0
+    if @context.categories.length > 0
       self = @
-      @props.categories.map (c) => `<SidebarCategory data={c} handleDelete={self.props.handleCategoryDelete} key={c.id} />`
+      @context.categories.map (c) => `<SidebarCategory data={c} handleDelete={self.props.handleCategoryDelete} key={c.id} />`
     else
       `<small>No categories</small>`
 

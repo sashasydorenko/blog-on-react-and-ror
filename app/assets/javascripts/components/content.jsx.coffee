@@ -1,8 +1,16 @@
 class @Content extends React.Component
+  @childContextTypes =
+    posts: React.PropTypes.array
+    categories: React.PropTypes.array
+  
   constructor: ->
     @state =
       posts: null
       categories: null
+
+  getChildContext: ->
+    posts: @state.posts
+    categories: @state.categories
 
   componentDidMount: ->
     do @getPostsFromApi
@@ -29,7 +37,7 @@ class @Content extends React.Component
         @state.posts.map (post) ->
           `<Post data={post}
                  key={post.id}
-                 handleDelete={self.getPostsFromApi} />`
+                 handleSubmit={self.getPostsFromApi} />`
       else
         `<div className="panel panel-default">
           <div className="panel-body text-center text-muted" style={{fontSize: '20px'}}>
@@ -40,7 +48,7 @@ class @Content extends React.Component
     `<div className="container">
       <div className="row">
         <div className="col-md-9">
-          <PostForm handleSubmit={this.getPostsFromApi} categories={this.state.categories} />
+          <PostForm handleSubmit={this.getPostsFromApi} />
 
           <div className="posts">
             {posts}
@@ -49,7 +57,6 @@ class @Content extends React.Component
 
         <div className="col-md-3">          
           <Sidebar handleSearch={this.handleSearch}
-                   categories={this.state.categories}
                    handleCategoryDelete={this.handleCategoryDelete}
                    handleCategorySubmit={this.getCategoriesFromApi} />
         </div>
