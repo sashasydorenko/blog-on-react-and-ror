@@ -16,7 +16,7 @@ class @Navbar extends React.Component
             <span className="icon-bar"></span>
           </button>
 
-          <a className="navbar-brand">Blog</a>
+          <a className="navbar-brand">Blog on ReactJS</a>
         </div>
 
         <div id="navbar-collapse" className="collapse navbar-collapse">

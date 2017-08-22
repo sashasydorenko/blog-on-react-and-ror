@@ -9,7 +9,8 @@ class @Post extends React.Component
   constructor: (props) ->
     @state =
       editable: false
-      postUpdating: false
+      updating: false
+      allContent: false
       comments: null
       commentsCount: props.data.comments_count
       toggleComments: false
@@ -18,6 +19,9 @@ class @Post extends React.Component
 
   handleClickTitle: =>
     alertify.alert "Post: #{@props.data.name}"
+
+  handleToggleContent: =>
+    @setState allContent: !@state.allContent
 
   handleDelete: =>
     alertify.confirm "Do you really want to <span class='text-danger'>delete</span> <b>#{@props.data.name}</b>?", =>
@@ -29,7 +33,7 @@ class @Post extends React.Component
           do @props.handleSubmit
 
   handleUpdate: =>
-    @setState postUpdating: true
+    @setState updating: true
 
     post =
       name: @refs.name.value
@@ -45,7 +49,7 @@ class @Post extends React.Component
       do @props.handleSubmit
       alertify.success 'Post is successful updated'
     ).always( =>
-      @setState postUpdating: false
+      @setState updating: false
     )
 
   handleToggleEdit: =>
@@ -56,22 +60,22 @@ class @Post extends React.Component
 
     `<div key={this.props.data.id}>
       <div className="form-group">
-        <input className="form-control" ref='name' defaultValue={this.props.data.name} />
+        <input className="form-control input-sm" ref='name' defaultValue={this.props.data.name} />
       </div>
       
       <div className="form-group">
-        <textarea className="form-control" ref='content' defaultValue={this.props.data.content} rows="3" />
+        <textarea className="form-control input-sm" ref='content' defaultValue={this.props.data.content} rows="10" />
       </div>
 
       <div className="form-group">
-        <select className="form-control" ref='category' defaultValue={this.props.data.category_id}>
+        <select className="form-control input-sm" ref='category' defaultValue={this.props.data.category_id}>
           <option value="">- Select category -</option>
           {categories}
         </select>
       </div>
       
       <div className="form-group">
-        {this.state.postUpdating ? (
+        {this.state.updating ? (
           <button className="pull-right btn btn-sm btn-primary disabled">Saving...</button>
         ) : (
           <button onClick={this.handleUpdate} className="pull-right btn btn-sm btn-primary">Save</button>
@@ -129,7 +133,8 @@ class @Post extends React.Component
 
           <p className={'clearfix post-content' + (this.props.data.file ? ' post-content-has-image' : '')}>
             {this.props.data.file && (<img src={this.props.data.file} alt={this.props.data.name} className="post-image" />)}
-            {this.props.data.content}
+            {this.state.allContent ? this.props.data.content : this.props.data.short_content}
+            {this.props.data.content.length > 360 && <a onClick={this.handleToggleContent} className="post-content-btn">{this.state.allContent ? 'See Less' : 'See More'}</a>}
           </p>
 
           <footer className="post-footer">

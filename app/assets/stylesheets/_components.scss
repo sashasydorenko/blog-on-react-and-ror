@@ -179,6 +179,11 @@ textarea {
     }
   }
 
+  &-content-btn {
+    white-space: nowrap;
+    margin-left: 5px;
+  }
+
   &-action-buttons {
     float: right;
     opacity: 0;
