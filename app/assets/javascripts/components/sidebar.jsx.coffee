@@ -1,5 +1,6 @@
 class @Sidebar extends React.Component
   @propTypes =
+    categories: React.PropTypes.array
     handleSearch: React.PropTypes.func
 
   render: ->
@@ -16,17 +17,7 @@ class @Sidebar extends React.Component
         </div>
 
         <div className="panel-body">
-          <SidebarCategories />
-        </div>
-      </div>
-
-      <div className="panel panel-default">
-        <div className="panel-heading">
-          <h3 className="panel-title">Tags</h3>
-        </div>
-
-        <div className="panel-body">
-          <SidebarTags />
+          <SidebarCategories categories={this.props.categories} />
         </div>
       </div>
     </aside>`

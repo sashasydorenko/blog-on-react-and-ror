@@ -3,7 +3,7 @@ class Post < ApplicationRecord
 
   belongs_to :category
 
-  validates :name, :content, :category, presence: true
+  validates :name, :content, presence: true
 
   def self.search(query)
     if query.blank?

@@ -22,11 +22,13 @@ class @Post extends React.Component
     alert "Edit post `#{@props.data.name}`"
 
   handleDelete: =>
-    if confirm "Do you really want to delete `#{@props.data.name}`?"
+    alertify.confirm "Do you really want to delete `#{@props.data.name}`?", =>
       $.ajax
         method: 'DELETE'
         url: "/api/posts/#{@props.data.id}"
-        success: @props.handleDelete
+        success: =>
+          alertify.success 'Post is successful deleted'
+          do @props.handleDelete
 
   # Comments
 
@@ -73,7 +75,8 @@ class @Post extends React.Component
           </ul>
         </header>
 
-        <p className="post-content">
+        <p className={'clearfix post-content' + (post.file ? ' post-content-has-image' : '')}>
+          {post.file && (<img src={post.file} alt={post.name} className="post-image" />)}
           {post.content}
         </p>
 

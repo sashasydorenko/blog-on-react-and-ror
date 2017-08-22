@@ -1,18 +1,12 @@
 class @SidebarCategories extends React.Component
-  constructor: ->
-    @state = categories: false
-
-  componentDidMount: ->
-    do @getDataFromApi
-
-  getDataFromApi: ->
-    $.get '/api/sidebar/categories', (data) => @setState(categories: data)
+  @propTypes =
+    categories: React.PropTypes.array
 
   handleClick: ->
     console.log('Category: ' + @props.name)
 
   renderList: ->
-    @state.categories.map (category) ->
+    @props.categories.map (category) ->
       `<a className="list-group-item" key={category.id}>
         <h4 className="list-group-item-heading">
           {category.name}
@@ -25,7 +19,7 @@ class @SidebarCategories extends React.Component
 
   render: ->
     `<div className="list-group">
-      {this.state.categories ? (
+      {this.props.categories ? (
         this.renderList()
       ) : (
         <Loading />

@@ -1,12 +1,18 @@
 class @Content extends React.Component
   constructor: ->
-    @state = posts: null
+    @state =
+      posts: null
+      categories: null
 
   componentDidMount: ->
-    do @getDataFromApi
+    do @getPostsFromApi
+    do @getCategoriesFromApi
 
-  getDataFromApi: =>
-    $.get '/api/posts', (posts) => @setState(posts: posts)
+  getPostsFromApi: =>
+    $.get '/api/posts', (data) => @setState(posts: data)
+
+  getCategoriesFromApi: =>
+    $.get '/api/categories', (data) => @setState(categories: data)
 
   handleSearch: (posts) =>
     @setState posts: posts
@@ -19,7 +25,7 @@ class @Content extends React.Component
         @state.posts.map (post) ->
           `<Post data={post}
                  key={post.id}
-                 handleDelete={self.getDataFromApi} />`
+                 handleDelete={self.getPostsFromApi} />`
       else
         `<div className="panel panel-default">
           <div className="panel-body text-center text-muted" style={{fontSize: '20px'}}>
@@ -29,10 +35,8 @@ class @Content extends React.Component
 
     `<div className="container">
       <div className="row">
-        <div className="col-md-9">          
-          <div className="text-center">
-            <a className="btn-new-post">+<span className="btn-new-post-text">Add new post</span></a>
-          </div>
+        <div className="col-md-9">
+          <PostForm handleSubmit={this.getPostsFromApi} categories={this.state.categories} />
 
           <div className="posts">
             {posts}
@@ -40,7 +44,7 @@ class @Content extends React.Component
         </div>
 
         <div className="col-md-3">          
-          <Sidebar handleSearch={this.handleSearch} />
+          <Sidebar handleSearch={this.handleSearch} categories={this.state.categories} />
         </div>
       </div>
     </div>`
