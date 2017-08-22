@@ -10,7 +10,7 @@ class Post < ApplicationRecord
     if query.blank?
       all
     else
-      where('name LIKE ? OR content LIKE ?', "%#{query}%", "%#{query}%")
+      where('lower(name) LIKE lower(?) OR lower(content) LIKE lower(?)', "%#{query}%", "%#{query}%")
     end
   end
 end

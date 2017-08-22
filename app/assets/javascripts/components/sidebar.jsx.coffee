@@ -5,18 +5,30 @@ class @Sidebar extends React.Component
     handleCategorySubmit: React.PropTypes.func
     handleCategoryDelete: React.PropTypes.func
 
+  emptyForm: ->
+    @refs.name.value = ''
+    @refs.description.value = ''
+
   handleModalCategoryForm: =>
-    alertify.modalForm 'Add new category', '#categoryForm', =>
+    alertify.modalForm 'Add new category', '#categoryForm', (e) =>
       category = 
         name: @refs.name.value
         description: @refs.description.value
 
+      $(e.button.element)
+        .addClass 'disabled'
+        .text 'Sending...'
+
       $.post '/api/categories', category, =>
-        @refs.name.value = ''
-        @refs.description.value = ''
+        do @emptyForm
         do @props.handleCategorySubmit
+
         alertify.success 'Category is successful created'
         alertify.modalForm().close()
+
+        $(e.button.element)
+          .removeClass 'disabled'
+          .text 'Save'
 
       false
 

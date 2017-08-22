@@ -40,7 +40,6 @@ alertify.dialog 'modalForm', ->
       }
       {
         text: 'Save'
-        key: 13
         className: alertify.defaults.theme.ok
       }
     ]
@@ -56,6 +55,9 @@ alertify.dialog 'modalForm', ->
   settings:
     onok: null
     oncancel: null
+
+  prepare: ->
+    @__internal.buttons[1].element
 
   callback: (closeEvent) ->
     switch closeEvent.index

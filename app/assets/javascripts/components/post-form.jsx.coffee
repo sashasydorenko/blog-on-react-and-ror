@@ -10,12 +10,16 @@ class @PostForm extends React.Component
     @refs.category.value = ''
 
   handleModalForm: =>
-    alertify.modalForm 'Add new post', '#postForm', =>
+    alertify.modalForm 'Add new post', '#postForm', (e) =>
       formData = new FormData()
       formData.append('name', @refs.name.value)
       formData.append('content', @refs.content.value)
       formData.append('file', @refs.file.files[0])
       formData.append('category_id', @refs.category.value)
+
+      $(e.button.element)
+        .addClass 'disabled'
+        .text 'Sending...'
 
       $.ajax
         method: 'POST'
@@ -27,8 +31,13 @@ class @PostForm extends React.Component
         success: =>
           do @emptyForm
           do @props.handleSubmit
+
           alertify.success 'Post is successful created'
           alertify.modalForm().close()
+
+          $(e.button.element)
+            .removeClass 'disabled'
+            .text 'Save'
 
       false
 
