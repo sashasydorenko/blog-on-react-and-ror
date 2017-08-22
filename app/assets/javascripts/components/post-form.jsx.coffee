@@ -10,7 +10,7 @@ class @PostForm extends React.Component
     @refs.category.value = ''
 
   handleModalForm: =>
-    alertify.modalForm 'Add new post', '#innerForm', =>
+    alertify.modalForm 'Add new post', '#postForm', =>
       formData = new FormData()
       formData.append('name', @refs.name.value)
       formData.append('content', @refs.content.value)
@@ -40,7 +40,7 @@ class @PostForm extends React.Component
         <a className="btn-new-post" onClick={this.handleModalForm}>+<span className="btn-new-post-text">Add new post</span></a>
       </div>
 
-      <div id="innerForm" className="hidden">
+      <div id="postForm" className="hidden">
         <div className="form-group">
           <input ref="name" type="text" className="form-control" placeholder="Type here the title post..." />
         </div>

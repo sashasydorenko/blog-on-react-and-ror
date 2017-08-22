@@ -8,7 +8,7 @@ module Api::Responsable
   end
 
   def json_action(model, serializer: nil)
-    if model.errors.any?      
+    if model.errors.any?
       json_error model, serializer: serializer
     else
       json_response model, serializer: serializer

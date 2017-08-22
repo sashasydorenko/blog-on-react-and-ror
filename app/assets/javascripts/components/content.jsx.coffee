@@ -17,6 +17,10 @@ class @Content extends React.Component
   handleSearch: (posts) =>
     @setState posts: posts
 
+  handleCategoryDelete: =>
+    do @getPostsFromApi
+    do @getCategoriesFromApi
+
   render: ->
     self = @
 
@@ -44,7 +48,10 @@ class @Content extends React.Component
         </div>
 
         <div className="col-md-3">          
-          <Sidebar handleSearch={this.handleSearch} categories={this.state.categories} />
+          <Sidebar handleSearch={this.handleSearch}
+                   categories={this.state.categories}
+                   handleCategoryDelete={this.handleCategoryDelete}
+                   handleCategorySubmit={this.getCategoriesFromApi} />
         </div>
       </div>
     </div>`

@@ -10,7 +10,7 @@ html {
 }
 
 body {
-  margin-bottom: $footer-height;
+  padding-bottom: $footer-height;
 }
 
 a {
@@ -62,6 +62,10 @@ textarea {
 // List group
 
 .list-group {
+  > * {
+    position: relative;
+  }
+
   &-item {
     padding: $padding-base-vertical $padding-base-horizontal;
     @include transition(.15s);    
@@ -73,6 +77,60 @@ textarea {
 
     &-text {
       font-size: 12px;
+    }
+
+    &:hover + .btn-category-remove {
+      opacity: 1;
+    }
+  }
+}
+
+
+// Categories buttons
+
+.btn-category {
+  &-new {
+    float: right;
+    font-size: 28px;
+    line-height: 1;
+    margin: -3px;
+    border-radius: 50%;
+    text-align: center;
+    @include square(25px);
+    @include transition(.2s);
+
+    &:hover {
+      color: white;
+      background-color: $brand-danger;
+      text-decoration: none;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &-remove {
+    @include square(22px);
+    background: #eceff1;
+    border-radius: 50%;
+    color: #607d8b;
+    float: right;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 4px;
+    line-height: 1;
+    margin-left: $padding-base-horizontal;
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    top: calc(50% - 10px);
+    z-index: 2;
+    cursor: pointer;
+    @include transition(opacity .2s);
+
+    &:hover {
+      opacity: 1;
+      background-color: $brand-danger;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     }
   }
 }
@@ -219,7 +277,8 @@ textarea {
     text-decoration: none;
     background-color: $brand-danger;
     color: white;
-    width: 100%;
+    width: 220px;
+
     @include transition(.15s linear);
 
     .btn-new-post-text {
@@ -448,7 +507,7 @@ textarea {
     border-radius: 0;
   }
 
-  .ajs-content > *:last-child {
+  .ajs-content > div > *:last-child {
     margin-bottom: 0;
   }
   

@@ -8,7 +8,7 @@ class PostSerializer < ActiveModel::Serializer
   end
 
   def category
-    object.category.name
+    object.category&.name
   end
 
   def file

@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   mount_uploader :file, FileUploader
 
+  has_many :comments, dependent: :destroy
   belongs_to :category
 
   validates :name, :content, presence: true

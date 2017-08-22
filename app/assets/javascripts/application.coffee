@@ -2,6 +2,7 @@
 #= require jquery_ujs
 #= require bootstrap/transition
 #= require bootstrap/collapse
+#= require bootstrap/tooltip
 #= require alertify
 #= require react
 #= require react_ujs
@@ -23,10 +24,8 @@ alertify.set('notifier', 'position', 'top-right')
 # Modal for forms
 alertify.dialog 'modalForm', ->
   main: (title, selector, onok, oncancel) ->
-    form = document.querySelector(selector)
-    @setContent(form)
-    form.classList.remove('hidden') if form?
-
+    @$form = $(selector).removeClass('hidden')
+    @setContent(@$form[0])
     @set('title', title)
     @set('onok', onok)
     @set('oncancel', oncancel)
@@ -70,7 +69,22 @@ alertify.dialog 'modalForm', ->
           returnValue = @get('onok').call(@, closeEvent)
           closeEvent.cancel = !returnValue if typeof returnValue isnt 'undefined'
 
+  hooks: onclose: -> 
+    setTimeout (=> @$form.addClass('hidden').appendTo('body')), 500
+
 # Register a handler to be called when Ajax requests complete with an error
 $(document).ajaxError (e, xhr, settings, thrownError) ->
-  message = xhr.responseJSON.errors.map (error) -> error
-  alertify.error message.join('<br>')
+  response = xhr.responseJSON
+
+  alertify.error(
+    if typeof response is 'object' 
+      if response.errors? and Array.isArray(response.errors)
+        response.errors.map((error) -> error).join('<br>')
+      else if response.error?
+        response.error
+    else
+      xhr.responseText.replace(/\n/g, '<br>')
+  )
+
+# Init bootstrap tooltip
+$('body').tooltip selector: '[data-toggle="tooltip"]'

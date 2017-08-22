@@ -12,17 +12,14 @@ class @Post extends React.Component
   # Post
 
   handleClickTitle: =>
-    console.log 'Post: ', @props.data.name
+    alertify.alert "Post: #{@props.data.name}"
 
   handleEdit: =>
-    alert "Edit post `#{@props.data.name}`"
     # @setState edit: !@state.edit
-
-  handleUpdate: =>
-    alert "Edit post `#{@props.data.name}`"
+    alertify.alert "Editing post <b>#{@props.data.name}</b>"
 
   handleDelete: =>
-    alertify.confirm "Do you really want to delete `#{@props.data.name}`?", =>
+    alertify.confirm "Do you really want to <span class='text-danger'>delete</span> <b>#{@props.data.name}</b>?", =>
       $.ajax
         method: 'DELETE'
         url: "/api/posts/#{@props.data.id}"
@@ -47,16 +44,15 @@ class @Post extends React.Component
   handleCommentSubmit: =>
     do @getCommentsDataFromApi
 
-  render: ->
+  comments: =>
     self = @
-    post = @props.data
-
-    comments = @state.comments && @state.comments.map (comment) ->
+    @state.comments && @state.comments.map (comment) ->
      `<Comment data={comment}
-               postId={post.id}
+               postId={self.props.data.id}
                handleDelete={self.handleCommentDelete}
                key={'comment' + comment.id} />`
 
+  render: ->
     `<article className="panel panel-default post">
       <div className="panel-body">
         <header className="post-header">
@@ -66,18 +62,18 @@ class @Post extends React.Component
           </div>
 
           <h1 className="post-title">
-            <a onClick={this.handleClickTitle}>{post.name}</a>
+            <a onClick={this.handleClickTitle}>{this.props.data.name}</a>
           </h1>
 
           <ul className="list-unstyled list-inline text-muted post-list">
-            <li>{post.created_at}</li>
-            <li>{post.category}</li>
+            <li>{this.props.data.created_at}</li>
+            <li>{this.props.data.category}</li>
           </ul>
         </header>
 
-        <p className={'clearfix post-content' + (post.file ? ' post-content-has-image' : '')}>
-          {post.file && (<img src={post.file} alt={post.name} className="post-image" />)}
-          {post.content}
+        <p className={'clearfix post-content' + (this.props.data.file ? ' post-content-has-image' : '')}>
+          {this.props.data.file && (<img src={this.props.data.file} alt={this.props.data.name} className="post-image" />)}
+          {this.props.data.content}
         </p>
 
         <footer className="post-footer">
@@ -88,8 +84,8 @@ class @Post extends React.Component
         </footer>
 
         <div className={this.state.toggleComments ? 'comments show' : 'comments hide'}>
-          {comments}
-          <CommentForm handleCommentSubmit={this.handleCommentSubmit} postId={post.id} />
+          {this.comments()}
+          <CommentForm handleCommentSubmit={this.handleCommentSubmit} postId={this.props.data.id} />
         </div>
       </div>
     </article>`
